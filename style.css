@@ -111,25 +111,35 @@ img {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 24px;
+    gap: 16px;
 }
 
-.loader-circle {
-    width: 64px;
-    height: 64px;
-    border: 3px solid rgba(198, 255, 0, 0.1);
-    border-top-color: var(--accent-lime);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
-.loader-text {
-    color: var(--accent-lime);
-    font-size: 20px;
-    letter-spacing: 0.15em;
-    font-weight: 700;
-    text-transform: uppercase;
+.loader-logo {
+    max-height: 150px;
     animation: pulse 2s ease-in-out infinite;
+}
+
+.loader-progress-container {
+    width: 200px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.loader-progress-bar {
+    width: 0%;
+    height: 100%;
+    background: var(--accent-lime);
+    transition: width 0.1s ease;
+}
+
+.loader-percentage {
+    color: var(--text-secondary);
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    font-weight: 600;
 }
 
 @keyframes spin {

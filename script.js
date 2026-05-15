@@ -1,14 +1,29 @@
 document.addEventListener('DOMContentLoaded', () => {
     
-    // 0. Preloader
+    // 0. Preloader with percentage
     const preloader = document.getElementById('preloader');
-    window.addEventListener('load', () => {
-        if (preloader) {
+    const progressBar = document.getElementById('loader-progress-bar');
+    const percentageText = document.getElementById('loader-percentage');
+    
+    let loadProgress = 0;
+    const progressInterval = setInterval(() => {
+        loadProgress += Math.floor(Math.random() * 15) + 5;
+        if (loadProgress >= 100) {
+            loadProgress = 100;
+            clearInterval(progressInterval);
+            
             setTimeout(() => {
-                preloader.classList.add('hidden');
-            }, 800); // 800ms delay for premium feel
+                if (preloader) {
+                    preloader.classList.add('hidden');
+                }
+            }, 400);
         }
-    });
+        
+        if (progressBar && percentageText) {
+            progressBar.style.width = loadProgress + '%';
+            percentageText.textContent = loadProgress + '%';
+        }
+    }, 100);
 
     // 1. Sticky Header
     const header = document.getElementById('header');
