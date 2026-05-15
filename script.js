@@ -1,5 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
     
+    // 0. Preloader
+    const preloader = document.getElementById('preloader');
+    window.addEventListener('load', () => {
+        if (preloader) {
+            setTimeout(() => {
+                preloader.classList.add('hidden');
+            }, 800); // 800ms delay for premium feel
+        }
+    });
+
     // 1. Sticky Header
     const header = document.getElementById('header');
     
