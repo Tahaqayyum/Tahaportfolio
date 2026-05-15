@@ -132,47 +132,40 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 8. Handle Form Submission with AJAX & Popup
+    // 8. Handle Form Submission with Hidden Iframe & Popup
     const enrollmentForm = document.getElementById('enrollment-form');
     const successPopup = document.getElementById('success-popup');
     const closePopupBtn = document.getElementById('close-popup');
+    const hiddenIframe = document.getElementById('hidden_iframe');
 
-    if (enrollmentForm) {
+    let isSubmitting = false;
+
+    if (enrollmentForm && hiddenIframe) {
         enrollmentForm.addEventListener('submit', function(e) {
-            e.preventDefault();
+            isSubmitting = true;
             
             const submitBtn = enrollmentForm.querySelector('button[type="submit"]');
-            const originalBtnHtml = submitBtn.innerHTML;
             
             // Show loading state
             submitBtn.innerHTML = 'Sending... <span class="material-symbols-outlined icon-right animate-spin" style="animation: spin 1s linear infinite;">sync</span>';
             submitBtn.disabled = true;
+        });
 
-            const formData = new FormData(this);
-
-            fetch("https://formsubmit.co/ajax/info.kolachitech@gmail.com", {
-                method: "POST",
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if(data.success === "true" || data.success === true) {
-                    // Show success popup
-                    successPopup.classList.add('show');
-                    enrollmentForm.reset();
-                } else {
-                    alert("There was an error sending your application. Please try again.");
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert("Something went wrong. Please check your connection and try again.");
-            })
-            .finally(() => {
+        hiddenIframe.addEventListener('load', function() {
+            if (isSubmitting) {
+                // Form was submitted and iframe loaded the response
+                const submitBtn = enrollmentForm.querySelector('button[type="submit"]');
+                
+                // Show success popup
+                successPopup.classList.add('show');
+                enrollmentForm.reset();
+                
                 // Restore button
-                submitBtn.innerHTML = originalBtnHtml;
+                submitBtn.innerHTML = 'Submit Application <span class="material-symbols-outlined icon-right">send</span>';
                 submitBtn.disabled = false;
-            });
+                
+                isSubmitting = false;
+            }
         });
     }
 
